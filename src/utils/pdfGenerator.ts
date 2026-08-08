@@ -1,9 +1,9 @@
 import { PDFDocument } from 'pdf-lib';
-import * as pdfjsLib from 'pdfjs-dist';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { PdfPageItem } from '../types';
 
-// Configure pdfjs worker to reliable CDN version matching installed version
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version || '4.10.38'}/pdf.worker.min.mjs`;
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 /**
  * Extracts and renders each page of an uploaded PDF file into canvas preview image URLs.
@@ -11,7 +11,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs
 export async function renderPdfFileToPages(file: File): Promise<{ previewUrl: string; width: number; height: number }[]> {
   try {
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+    const loadingTask = getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;
     const renderedPages: { previewUrl: string; width: number; height: number }[] = [];
 
