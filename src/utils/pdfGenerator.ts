@@ -1,13 +1,9 @@
 import { PDFDocument } from 'pdf-lib';
-import { getDocument } from 'pdfjs-dist/legacy/build/pdf';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { PdfPageItem } from '../types';
 
-export interface AadhaarSidePreview {
-  file: File;
-  previewUrl: string;
-  width: number;
-  height: number;
-}
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 /**
  * Extracts and renders each page of an uploaded PDF file into canvas preview image URLs.
@@ -15,7 +11,7 @@ export interface AadhaarSidePreview {
 export async function renderPdfFileToPages(file: File): Promise<{ previewUrl: string; width: number; height: number }[]> {
   try {
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = getDocument({ data: new Uint8Array(arrayBuffer), disableWorker: true });
+    const loadingTask = getDocument({ data: arrayBuffer });
     const pdf = await loadingTask.promise;
     const renderedPages: { previewUrl: string; width: number; height: number }[] = [];
 
@@ -164,107 +160,5 @@ export async function createCompressedPdf(
     pdfBlob,
     pdfDataUrl,
     sizeKb: calculatedSizeKb
-  };
-}
-
-export async function createAadhaarTwoSidedPdf(
-  front: AadhaarSidePreview,
-  back: AadhaarSidePreview,
-  targetKb: number = 300,
-  initialQuality: number = 0.75
-): Promise<{ pdfBlob: Blob; pdfDataUrl: string; sizeKb: number }> {
-  let currentQuality = initialQuality;
-  let finalPdfBytes: Uint8Array | null = null;
-  let calculatedSizeKb = 0;
-
-  for (let attempt = 0; attempt < 5; attempt++) {
-    const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([595.28, 841.89]);
-    const pageW = page.getWidth();
-    const pageH = page.getHeight();
-    const margin = 24;
-    const columnGap = 16;
-    const availableWidth = pageW - margin * 2;
-    const imageWidth = (availableWidth - columnGap) / 2;
-    const maxHeight = pageH - margin * 2;
-
-    const loadImage = async (previewUrl: string) => {
-      const img = new Image();
-      img.src = previewUrl;
-      await new Promise<void>((resolve, reject) => {
-        img.onload = () => resolve();
-        img.onerror = () => reject(new Error('Failed to load Aadhaar side preview.'));
-      });
-      return img;
-    };
-
-    const frontImg = await loadImage(front.previewUrl);
-    const backImg = await loadImage(back.previewUrl);
-
-    const renderCompressed = async (img: HTMLImageElement): Promise<Uint8Array> => {
-      const canvas = document.createElement('canvas');
-      const scale = Math.min(1, imageWidth / img.width, maxHeight / img.height);
-      canvas.width = Math.max(1, Math.round(img.width * scale));
-      canvas.height = Math.max(1, Math.round(img.height * scale));
-      const ctx = canvas.getContext('2d');
-      if (!ctx) throw new Error('Failed to create canvas for Aadhaar PDF generation.');
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      const jpegDataUrl = canvas.toDataURL('image/jpeg', currentQuality);
-      return new Uint8Array(await fetch(jpegDataUrl).then((r) => r.arrayBuffer()));
-    };
-
-    const frontBytes = await renderCompressed(frontImg);
-    const backBytes = await renderCompressed(backImg);
-
-    const frontPdfImage = await pdfDoc.embedJpg(frontBytes);
-    const backPdfImage = await pdfDoc.embedJpg(backBytes);
-
-    const frontScale = Math.min(imageWidth / frontPdfImage.width, maxHeight / frontPdfImage.height);
-    const backScale = Math.min(imageWidth / backPdfImage.width, maxHeight / backPdfImage.height);
-    const frontDrawWidth = frontPdfImage.width * frontScale;
-    const frontDrawHeight = frontPdfImage.height * frontScale;
-    const backDrawWidth = backPdfImage.width * backScale;
-    const backDrawHeight = backPdfImage.height * backScale;
-
-    const frontX = margin + (imageWidth - frontDrawWidth) / 2;
-    const backX = margin + imageWidth + columnGap + (imageWidth - backDrawWidth) / 2;
-    const commonY = margin + (maxHeight - Math.max(frontDrawHeight, backDrawHeight)) / 2;
-
-    page.drawImage(frontPdfImage, {
-      x: frontX,
-      y: commonY + (Math.max(frontDrawHeight, backDrawHeight) - frontDrawHeight) / 2,
-      width: frontDrawWidth,
-      height: frontDrawHeight,
-    });
-
-    page.drawImage(backPdfImage, {
-      x: backX,
-      y: commonY + (Math.max(frontDrawHeight, backDrawHeight) - backDrawHeight) / 2,
-      width: backDrawWidth,
-      height: backDrawHeight,
-    });
-
-    finalPdfBytes = await pdfDoc.save();
-    calculatedSizeKb = parseFloat((finalPdfBytes.byteLength / 1024).toFixed(2));
-
-    if (calculatedSizeKb <= targetKb || currentQuality <= 0.2) {
-      break;
-    }
-    currentQuality -= 0.15;
-  }
-
-  if (!finalPdfBytes) {
-    throw new Error('Failed to generate Aadhaar combined PDF.');
-  }
-
-  const pdfBlob = new Blob([finalPdfBytes], { type: 'application/pdf' });
-  const pdfDataUrl = URL.createObjectURL(pdfBlob);
-
-  return {
-    pdfBlob,
-    pdfDataUrl,
-    sizeKb: calculatedSizeKb,
   };
 }
