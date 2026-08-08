@@ -50,7 +50,7 @@ export const PdfTool: React.FC<PdfToolProps> = ({
 
     try {
       for (const file of Array.from(files)) {
-        if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+        if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
           // Render PDF pages into preview canvas URLs
           const renderedPages = await renderPdfFileToPages(file);
           renderedPages.forEach((p, idx) => {

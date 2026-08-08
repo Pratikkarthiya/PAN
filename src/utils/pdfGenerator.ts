@@ -1,6 +1,9 @@
 import { PDFDocument } from 'pdf-lib';
-import { getDocument } from 'pdfjs-dist/legacy/build/pdf';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf';
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { PdfPageItem } from '../types';
+
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 /**
  * Extracts and renders each page of an uploaded PDF file into canvas preview image URLs.
@@ -9,21 +12,31 @@ export async function renderPdfFileToPages(file: File): Promise<{ previewUrl: st
   try {
     const arrayBuffer = await file.arrayBuffer();
     const uint8 = new Uint8Array(arrayBuffer);
-    const options = { data: uint8, disableWorker: true, disableRange: true };
-    let loadingTask = getDocument(options as any);
-    let pdf;
+    const tryParse = async (source: any) => {
+      const loadingTask = getDocument({ ...source, disableRange: true } as any);
+      return await loadingTask.promise;
+    };
 
+    let pdf;
     try {
-      pdf = await loadingTask.promise;
+      pdf = await tryParse({ data: uint8 });
     } catch (primaryError) {
-      console.warn('PDF parse failed with ArrayBuffer, retrying with object URL:', primaryError);
-      const objectUrl = URL.createObjectURL(file);
+      console.warn('PDF parse failed with Uint8Array, retrying with ArrayBuffer:', primaryError);
       try {
-        loadingTask = getDocument({ url: objectUrl, disableWorker: true, disableRange: true } as any);
-        pdf = await loadingTask.promise;
-      } finally {
-        URL.revokeObjectURL(objectUrl);
+        pdf = await tryParse({ data: arrayBuffer });
+      } catch (secondaryError) {
+        console.warn('PDF parse failed with ArrayBuffer, retrying with object URL:', secondaryError);
+        const objectUrl = URL.createObjectURL(file);
+        try {
+          pdf = await tryParse({ url: objectUrl });
+        } finally {
+          URL.revokeObjectURL(objectUrl);
+        }
       }
+    }
+
+    if (!pdf) {
+      throw new Error('Unable to parse the PDF document with available fallbacks.');
     }
 
     const renderedPages: { previewUrl: string; width: number; height: number }[] = [];
