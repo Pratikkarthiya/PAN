@@ -177,6 +177,54 @@ export const StartCompressing: React.FC<StartCompressingProps> = ({ onNavigate }
             </div>
           </div>
 
+          {/* Aadhaar Two-Sided Upload Card */}
+          <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-6 flex flex-col justify-between hover:bg-white/[0.08] transition-all group">
+            <div className="space-y-4">
+              <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#E5C38B] group-hover:scale-110 transition-transform">
+                <FileText className="w-6 h-6 text-[#E5C38B]" />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-serif text-[#F5F5F5]">
+                  Aadhaar Front + Back
+                </h2>
+                <span className="text-[10px] font-mono uppercase bg-[#E5C38B]/10 text-[#E5C38B] px-2.5 py-1 rounded-full border border-[#E5C38B]/30">
+                  Single PDF Page
+                </span>
+              </div>
+
+              <p className="text-xs text-white/50 leading-relaxed">
+                Upload both Aadhaar sides and convert them into one merged PDF page for PAN or document upload.
+              </p>
+
+              <ul className="space-y-2 text-xs text-white/60 pt-3 border-t border-white/10">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#E5C38B] shrink-0" />
+                  <span>Upload front + back together</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#E5C38B] shrink-0" />
+                  <span>Merge into one PDF page</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-4 border-t border-white/10">
+              <a
+                id="start-link-aadhaar"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate('aadhaar-upload');
+                }}
+                href="#aadhaar-upload"
+                className="w-full inline-flex items-center justify-between px-6 py-3.5 rounded-full text-xs font-semibold text-black uppercase tracking-[0.15em] bg-[#E5C38B] hover:bg-white transition-all shadow-lg shadow-[#E5C38B]/10 cursor-pointer"
+              >
+                <span>Launch Aadhaar Upload</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
           {/* Camera Capture Card */}
           <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-6 flex flex-col justify-between hover:bg-white/[0.08] transition-all group">
             <div className="space-y-4">

@@ -4,6 +4,7 @@ export type Screen =
   | 'photo-tool'
   | 'signature-tool'
   | 'pdf-tool'
+  | 'aadhaar-upload'
   | 'camera'
   | 'qr-transfer'
   | 'mobile-upload'

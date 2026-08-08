@@ -10,6 +10,7 @@ import { StartCompressing } from './components/StartCompressing';
 import { PhotoTool } from './components/PhotoTool';
 import { SignatureTool } from './components/SignatureTool';
 import { PdfTool } from './components/PdfTool';
+import { AadhaarUpload } from './components/AadhaarUpload';
 import { CameraCapture } from './components/CameraCapture';
 import { QrTransferModal } from './components/QrTransferModal';
 import { MobileUpload } from './components/MobileUpload';
@@ -97,6 +98,10 @@ export default function App() {
             initialDataUrl={capturedImageDataUrl} 
             initialFileName={transferredFileName} 
           />
+        )}
+
+        {currentScreen === 'aadhaar-upload' && (
+          <AadhaarUpload onNavigate={handleNavigate} />
         )}
 
         {currentScreen === 'camera' && (
