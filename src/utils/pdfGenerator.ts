@@ -1,9 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
-import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf';
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf';
 import { PdfPageItem } from '../types';
-
-GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 /**
  * Extracts and renders each page of an uploaded PDF file into canvas preview image URLs.
@@ -11,7 +8,7 @@ GlobalWorkerOptions.workerSrc = pdfjsWorker;
 export async function renderPdfFileToPages(file: File): Promise<{ previewUrl: string; width: number; height: number }[]> {
   try {
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = getDocument({ data: arrayBuffer });
+    const loadingTask = getDocument({ data: new Uint8Array(arrayBuffer), disableWorker: true });
     const pdf = await loadingTask.promise;
     const renderedPages: { previewUrl: string; width: number; height: number }[] = [];
 
