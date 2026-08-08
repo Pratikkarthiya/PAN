@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ currentScreen, onNavigate }) => 
             </div>
             <div>
               <span className="text-2xl font-semibold tracking-tighter uppercase font-serif text-[#F5F5F5] group-hover:text-[#E5C38B] transition-colors">
-                PN COMPRESSOR
+                KP CYBER
               </span>
               <span className="block text-[9px] tracking-[0.25em] text-[#E5C38B]/70 font-mono uppercase">
                 PAN CARD STUDIO

@@ -21,7 +21,7 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
             <span>Mission &amp; Architecture</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-serif font-light text-[#F5F5F5]">
-            About <span className="italic text-[#E5C38B]">PN Compressor</span>
+            About <span className="italic text-[#E5C38B]">KP CYBER</span>
           </h1>
           <p className="text-white/50 text-base leading-relaxed font-light">
             Built to provide 100% private, browser-based document preparation for millions of PAN card applicants.
@@ -33,13 +33,13 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({ onNavigate }) => {
         {/* Mission Statement Box */}
         <div className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 space-y-6">
           <h2 className="text-2xl font-serif text-[#F5F5F5]">
-            Why We Built PN Compressor
+            Why We Built KP CYBER
           </h2>
           <p className="text-sm text-white/70 leading-relaxed font-light">
             Every year, millions of citizens, students, and businesses in India apply for or update their Permanent Account Number (PAN) via NSDL or UTIITSL portals. A common pain point is the strict automated image upload validation: passport photos must be exactly 213x213 pixels (&lt;50KB), signatures must be clear (&lt;50KB), and proof PDFs must stay strictly under 300KB.
           </p>
           <p className="text-sm text-white/70 leading-relaxed font-light">
-            Traditional online image converters upload sensitive identity documents (Aadhaar cards, photos, signatures) to third-party cloud servers. We created PN Compressor to run 100% locally inside the user&apos;s browser using modern HTML5 Canvas &amp; WebAssembly, ensuring complete data privacy and instant processing.
+            Traditional online image converters upload sensitive identity documents (Aadhaar cards, photos, signatures) to third-party cloud servers. We created KP CYBER to run 100% locally inside the user&apos;s browser using modern HTML5 Canvas &amp; WebAssembly, ensuring complete data privacy and instant processing.
           </p>
         </div>
 

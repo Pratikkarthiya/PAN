@@ -31,21 +31,21 @@ export const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({ onNaviga
           <section className="space-y-2">
             <h2 className="text-lg font-serif text-[#F5F5F5]">1. Acceptance of Terms</h2>
             <p className="font-light">
-              By accessing and using PN Compressor (&ldquo;the Application&rdquo;), you agree to be bound by these Terms of Service. The Application is provided as a client-side utility for document resizing, cropping, and compression.
+              By accessing and using KP CYBER (&ldquo;the Application&rdquo;), you agree to be bound by these Terms of Service. The Application is provided as a client-side utility for document resizing, cropping, and compression.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-lg font-serif text-[#F5F5F5]">2. Client-Side Processing &amp; User Responsibility</h2>
             <p className="font-light">
-              PN Compressor performs all document processing strictly on your local browser device. We do not store, view, or retain any uploaded photos, signatures, or proof documents. You retain full ownership and responsibility for all content processed using the Application.
+              KP CYBER performs all document processing strictly on your local browser device. We do not store, view, or retain any uploaded photos, signatures, or proof documents. You retain full ownership and responsibility for all content processed using the Application.
             </p>
           </section>
 
           <section className="space-y-2">
             <h2 className="text-lg font-serif text-[#F5F5F5]">3. Portal Compliance &amp; Disclaimer</h2>
             <p className="font-light">
-              While PN Compressor is designed to align with NSDL and UTIITSL official image dimensions and file size limits, final acceptance of any document rests solely with the respective government portals or processing authorities. We provide no guarantee against portal rejection due to unreadable source scans, incorrect identity details, or portal server changes.
+              While KP CYBER is designed to align with NSDL and UTIITSL official image dimensions and file size limits, final acceptance of any document rests solely with the respective government portals or processing authorities. We provide no guarantee against portal rejection due to unreadable source scans, incorrect identity details, or portal server changes.
             </p>
           </section>
 
@@ -59,7 +59,7 @@ export const TermsOfServicePage: React.FC<TermsOfServicePageProps> = ({ onNaviga
           <section className="space-y-2">
             <h2 className="text-lg font-serif text-[#F5F5F5]">5. Limitation of Liability</h2>
             <p className="font-light">
-              In no event shall PN Compressor or its developers be liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use the Application.
+              In no event shall KP CYBER or its developers be liable for any direct, indirect, incidental, or consequential damages resulting from the use or inability to use the Application.
             </p>
           </section>
 

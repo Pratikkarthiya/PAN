@@ -18,7 +18,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <div className="w-3.5 h-3.5 bg-[#050505] rounded-sm rotate-45"></div>
             </div>
             <span className="text-lg font-semibold font-serif text-[#F5F5F5] uppercase tracking-wider">
-              PN COMPRESSOR
+              KP CYBER
             </span>
           </div>
           <p className="text-xs text-white/50 leading-relaxed">
@@ -167,7 +167,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       </div>
 
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/10 text-center text-[10px] uppercase tracking-widest text-white/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p>© {new Date().getFullYear()} PN COMPRESSOR STUDIO. ALL RIGHTS RESERVED.</p>
+        <p>© {new Date().getFullYear()} KP CYBER STUDIO. ALL RIGHTS RESERVED.</p>
         <div className="flex items-center gap-2 text-white/40">
           <Cpu className="w-3.5 h-3.5 text-[#E5C38B]" />
           <span>CLIENT-SIDE ENGINE</span>

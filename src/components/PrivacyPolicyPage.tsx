@@ -34,7 +34,7 @@ export const PrivacyPolicyPage: React.FC<PrivacyPolicyPageProps> = ({ onNavigate
               <span>Zero-Data Retention Guarantee</span>
             </div>
             <p className="text-xs text-white/70 font-light">
-              PN Compressor is architected as a pure client-side web application. We do not operate server storage for uploaded identity files. All image manipulations, crop algorithms, and PDF merges execute entirely within your web browser&apos;s isolated runtime environment.
+              KP CYBER is architected as a pure client-side web application. We do not operate server storage for uploaded identity files. All image manipulations, crop algorithms, and PDF merges execute entirely within your web browser&apos;s isolated runtime environment.
             </p>
           </div>
 

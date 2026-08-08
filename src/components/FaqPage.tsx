@@ -21,7 +21,7 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
     },
     {
       question: "Why does the NSDL / UTIITSL portal reject my passport photo or signature?",
-      answer: "The government portals enforce strict automated validation checks. Common rejection reasons include: file size exceeding 50 KB (even 50.1 KB will be rejected), dimensions not matching exact 213x213 pixels for photos or 200x600 pixels for signatures, or blurry ink with yellow paper background shadows. PN Compressor guarantees exact byte-level compliance."
+      answer: "The government portals enforce strict automated validation checks. Common rejection reasons include: file size exceeding 50 KB (even 50.1 KB will be rejected), dimensions not matching exact 213x213 pixels for photos or 200x600 pixels for signatures, or blurry ink with yellow paper background shadows. KP CYBER guarantees exact byte-level compliance."
     },
     {
       question: "How does the Signature Auto-Enhancer tool work?",
@@ -36,8 +36,8 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigate }) => {
       answer: "Yes! Use our 'WebRTC Camera Capture' tool. It activates your phone or webcam with interactive overlay guides (passport oval for photos and rectangular framing for signatures), allowing you to capture high-clarity photos that are immediately sent to the compression engines."
     },
     {
-      question: "Is PN Compressor completely free to use?",
-      answer: "Yes, PN Compressor is 100% free with no registration, no login requirements, no ads, and no watermarks."
+      question: "Is KP CYBER completely free to use?",
+      answer: "Yes, KP CYBER is 100% free with no registration, no login requirements, no ads, and no watermarks."
     }
   ];
 

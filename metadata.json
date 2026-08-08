@@ -1,5 +1,5 @@
 {
-  "name": "PN Compressor",
+  "name": "KP CYBER",
   "description": "Luxury client-side document & photo compression suite tailored for PAN card requirements (photo, signature, PDF, live camera capture).",
   "requestFramePermissions": ["camera"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

@@ -52,7 +52,7 @@ export const ContactUsPage: React.FC<ContactUsPageProps> = ({ onNavigate }) => {
                 Message Received!
               </h2>
               <p className="text-xs text-white/70 max-w-sm mx-auto font-light">
-                Thank you for contacting PN Compressor. Our support team will review your inquiry shortly.
+                Thank you for contacting KP CYBER. Our support team will review your inquiry shortly.
               </p>
               <button
                 onClick={() => {
