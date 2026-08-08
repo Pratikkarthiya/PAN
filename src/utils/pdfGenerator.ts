@@ -8,8 +8,24 @@ import { PdfPageItem } from '../types';
 export async function renderPdfFileToPages(file: File): Promise<{ previewUrl: string; width: number; height: number }[]> {
   try {
     const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = getDocument({ data: new Uint8Array(arrayBuffer), disableWorker: true });
-    const pdf = await loadingTask.promise;
+    const uint8 = new Uint8Array(arrayBuffer);
+    const options = { data: uint8, disableWorker: true, disableRange: true };
+    let loadingTask = getDocument(options as any);
+    let pdf;
+
+    try {
+      pdf = await loadingTask.promise;
+    } catch (primaryError) {
+      console.warn('PDF parse failed with ArrayBuffer, retrying with object URL:', primaryError);
+      const objectUrl = URL.createObjectURL(file);
+      try {
+        loadingTask = getDocument({ url: objectUrl, disableWorker: true, disableRange: true } as any);
+        pdf = await loadingTask.promise;
+      } finally {
+        URL.revokeObjectURL(objectUrl);
+      }
+    }
+
     const renderedPages: { previewUrl: string; width: number; height: number }[] = [];
 
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
