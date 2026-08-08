@@ -83,25 +83,42 @@ export const MobileUpload: React.FC<MobileUploadProps> = ({ roomId }) => {
     try {
       for (const file of Array.from(files)) {
         const isPdf = file.type === 'application/pdf' || file.name.endsWith('.pdf');
-        
-        // Read file as Data URL
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target?.result as string);
-          reader.onerror = (err) => reject(err);
-          reader.readAsDataURL(file);
-        });
-
         const sizeKb = Math.round(file.size / 1024);
+        let payload: any;
 
-        const payload = {
-          id: `mob-${Date.now()}-${Math.random()}`,
-          name: file.name,
-          sizeKb,
-          type: isPdf ? 'pdf' : 'image',
-          mimeType: file.type || (isPdf ? 'application/pdf' : 'image/jpeg'),
-          dataUrl
-        };
+        if (isPdf) {
+          const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as ArrayBuffer);
+            reader.onerror = (err) => reject(err);
+            reader.readAsArrayBuffer(file);
+          });
+
+          payload = {
+            id: `mob-${Date.now()}-${Math.random()}`,
+            name: file.name,
+            sizeKb,
+            type: 'pdf',
+            mimeType: file.type || 'application/pdf',
+            dataBuffer: arrayBuffer
+          };
+        } else {
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target?.result as string);
+            reader.onerror = (err) => reject(err);
+            reader.readAsDataURL(file);
+          });
+
+          payload = {
+            id: `mob-${Date.now()}-${Math.random()}`,
+            name: file.name,
+            sizeKb,
+            type: 'image',
+            mimeType: file.type || 'image/jpeg',
+            dataUrl
+          };
+        }
 
         // Send via WebRTC RTCDataChannel
         connRef.current.send(payload);

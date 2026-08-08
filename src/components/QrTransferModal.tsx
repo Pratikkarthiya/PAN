@@ -49,19 +49,32 @@ export const QrTransferModal: React.FC<QrTransferModalProps> = ({
         setIsMobileConnected(true);
 
         conn.on('data', (data: any) => {
-          if (data && data.dataUrl) {
-            const newFile: ReceivedMobileFile = {
-              id: data.id || `rec-${Date.now()}-${Math.random()}`,
-              name: data.name || 'mobile_file',
-              sizeKb: data.sizeKb || Math.round((data.dataUrl.length * 0.75) / 1024),
-              type: data.type || (data.mimeType?.includes('pdf') || data.name?.endsWith('.pdf') ? 'pdf' : 'image'),
-              mimeType: data.mimeType || 'image/jpeg',
-              dataUrl: data.dataUrl,
-              timestamp: Date.now()
-            };
+          if (!data) return;
 
-            setReceivedFiles((prev) => [newFile, ...prev]);
+          let dataUrl: string;
+          let mimeType = data.mimeType || 'application/octet-stream';
+          let type = data.type;
+
+          if (data.dataBuffer) {
+            const blob = new Blob([data.dataBuffer], { type: mimeType });
+            dataUrl = URL.createObjectURL(blob);
+          } else if (data.dataUrl) {
+            dataUrl = data.dataUrl;
+          } else {
+            return;
           }
+
+          const newFile: ReceivedMobileFile = {
+            id: data.id || `rec-${Date.now()}-${Math.random()}`,
+            name: data.name || 'mobile_file',
+            sizeKb: data.sizeKb || 0,
+            type: type || (mimeType.includes('pdf') || data.name?.endsWith('.pdf') ? 'pdf' : 'image'),
+            mimeType,
+            dataUrl,
+            timestamp: Date.now()
+          };
+
+          setReceivedFiles((prev) => [newFile, ...prev]);
         });
 
         conn.on('close', () => {
